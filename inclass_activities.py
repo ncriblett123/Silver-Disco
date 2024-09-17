@@ -767,9 +767,44 @@ print(f'Your number {x} squared: {squared(x)}')
 
 import doctest
 doctest.testmod(verbose=True)
-'''
+
 import math
 
 numbers = [1,2,3,4,5]
 
 print(numbers ** 2)
+'''
+
+#CIS 131#
+
+# 9/17/24 #
+#Dictionaries
+
+
+# '1' is the key, 'Patrick' is the value
+myDictionary = {1: 2 , 2 : ['Everyone', 'else']}
+
+#Updating a dictionary
+myDictionary[2] = 'Whatever'
+#print(myDictionary)
+
+#Adding to a dictionary
+myDictionary['Samus'] = .007 #Keys can be different types
+
+myDictionary[2] = ['Everyone', 'else']
+
+#Print just the value
+#print(myDictionary[2]) 
+
+#Updating a list within a dictionary
+myDictionary[2][1] = 'elsewhere'
+#print(myDictionary)
+
+# Getting only keys or values and turning them into a list
+#print(list(myDictionary.values()))
+
+#itterating over the dictionary
+
+#for key, value in myDictionary.items():
+#    print(f'{key} is connected to {value}')
+
