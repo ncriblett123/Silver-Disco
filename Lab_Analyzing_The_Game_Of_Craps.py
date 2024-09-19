@@ -1,12 +1,11 @@
 '''
-Nick Riblett
+Original Author: Dietel and Dietel
+Modified: Nick Riblett
 CIS 131
 9/17/24
 This progam will analyze the game of craps by keeping track of wins, losses, and what dice roll a win or loss occured
 '''
 
-# fig04_02.py
-"""Simulating the dice game Craps."""
 
 import random
 
@@ -16,18 +15,34 @@ keepGoing = 'y'
 gameNum = 0
 
 def roll_dice():
-    """Roll two dice and return their face values as a tuple."""
+    """Roll two dice and return their face values as a tuple.
+    
+        input: none
+        output: none
+        return: dice roll as a tuple
+    """
+
     die1 = random.randrange(1, 7)
     die2 = random.randrange(1, 7)
-    return (die1, die2)  # pack die face values into a tuple
 
-"""Display one roll of the two dice."""
+    # pack die face values into a tuple
+    return (die1, die2) 
+
+
 def display_dice(dice):
+    """Display one roll of the two dice.
+    
+        input: dice roll tuple
+        output: each die roll and their sum
+        return: nothing
+    """
 
     # unpack the tuple into variables die1 and die2
     die1, die2 = dice  
     print(f'Player rolled {die1} + {die2} = {sum(dice)}')
 
+
+#Continue playing umtil desired number of games is reached
 while keepGoing == 'y':
     
     # first roll
