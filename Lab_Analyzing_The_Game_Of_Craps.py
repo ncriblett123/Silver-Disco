@@ -39,15 +39,18 @@ while keepGoing == 'y':
     # determine game status and point, based on first roll
     sum_of_dice = sum(die_values)
 
-    if sum_of_dice in (7, 11):  # win
+    # win
+    if sum_of_dice in (7, 11):  
         game_status = 'WON'
         winDic[1] += 1
 
-    elif sum_of_dice in (2, 3, 12):  # lose
+    # lose
+    elif sum_of_dice in (2, 3, 12):  
         game_status = 'LOST'
         lossDic[1] += 1
 
-    else:  # remember point
+    # remember point
+    else:  
         game_status = 'CONTINUE'
         my_point = sum_of_dice
         print('Point is', my_point)
@@ -59,16 +62,19 @@ while keepGoing == 'y':
         display_dice(die_values)
         sum_of_dice = sum(die_values)
 
+        #Allow data for 25+ rolls stored in 25
         if diceRollNum > 25:
             diceRollNum = 25
         else:
             diceRollNum = diceRollNum
 
-        if sum_of_dice == my_point:  # win by making point
+        # win by making point
+        if sum_of_dice == my_point:  
             game_status = 'WON'
             winDic[diceRollNum] += 1
 
-        elif sum_of_dice == 7:  # lose by rolling 7
+        # lose by rolling 7
+        elif sum_of_dice == 7:  
             game_status = 'LOST'
             lossDic[diceRollNum] += 1
 
@@ -78,6 +84,7 @@ while keepGoing == 'y':
     else:
         print('Player loses')
     
+    #Number of games
     if gameNum >= 100000:
         keepGoing = 'n'
     else:
@@ -86,10 +93,15 @@ while keepGoing == 'y':
 gamesWon = 0
 gamesLost = 0
 
+#Total games win
 for wins in winDic.values():
     gamesWon += wins
+
+#Total games lost
 for loss in lossDic.values():
     gamesLost += loss
+
+#Print resultts
 print(f"The percentage of games won is {(gamesWon / gameNum) * 100:.2f}%")
 print(f"The percentage of games lost is {(gamesLost / gameNum) * 100:.2f}%")
 print()
@@ -98,9 +110,9 @@ print(f"{'Rolls':<7} {'on this roll':>7} {'of the game':>15}")
 
 precentTotal = 0
 
+#Calculate percentage of wins/losses on specific roll and print
 for i in range(25): 
     precentTotal += ((winDic[i + 1] + lossDic[i + 1]) / gameNum) * 100
     print(f"{i + 1:>3} {((winDic[i + 1] + lossDic[i + 1])  / gameNum) * 100 :>12.2f}% {precentTotal :>15.2f}%")
 
 
-#for rollNum, winNum in winDic.items():
