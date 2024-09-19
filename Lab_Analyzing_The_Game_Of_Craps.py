@@ -117,9 +117,8 @@ for loss in lossDic.values():
     gamesLost += loss
 
 #Print resultts
-print(f"The percentage of games won is {(gamesWon / gameNum) * 100:.2f}%")
-print(f"The percentage of games lost is {(gamesLost / gameNum) * 100:.2f}%")
-print()
+print(f"\nThe percentage of games won is {(gamesWon / gameNum) * 100:.2f}%")
+print(f"The percentage of games lost is {(gamesLost / gameNum) * 100:.2f}%\n")
 print(f"{'Resolved %':>19} {'Cumaltive %':>16}")
 print(f"{'Rolls':<7} {'on this roll':>7} {'of the game':>15}")
 
