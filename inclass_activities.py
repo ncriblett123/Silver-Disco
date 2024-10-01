@@ -553,6 +553,8 @@ with open('accounts.txt', mode = "w") as accounts #Opens account.txt. 'accounts'
 'a+' -open a tex file for reading and writing and appending at the end
 in python window, after file is created, 'dir' will show files, 'more 'fileName' will show what's in the file
 'dir a*' will show all files that start with a
+'filename'.readline # reads the first line of the file
+'filename'.read #Will read the whole file
 aFile = open('fileName.txt', mode = w)
 aFile.close
 fileName.seak(#) will starting reading and writing from that position
@@ -726,6 +728,98 @@ mycar.set_year('2002')
 mycar.set_make('Ford')
 print('The year of the car is ', mycar.year) #Will print for public objects
 print("The make of the car is ", mycar.get_make()) #Will print for private objects
+
+
+'''
+# 10/1/24 #
+#Object Oriented Programming
+'''
+Class: Blueprint for what you can do
+
+#Non programming
+    Dog #Clause
+
+    #Has a
+        name
+        bread
+        birthday
+
+    #Can do
+        bark()
+        bite()
+        eat()
+    
+#To create dog
+
+puppy1 is of type Dog() #puppy1 is an instance/object of the clause Dog
+
+puppy1 = Dog()
+puppy1.name = 'Spot'
+puppy1.bread = 'Labrador'
+
+puppy1.bark()
+
+from decimal import Decimal
+
+class Account:
+    #Account class for maintaining a bank acount balance
+
+    def __init__(self, name, balance, phoneNumber):
+        #Initialize an Account object
+
+        if balance < Decimal('0.00'):
+            raise ValueError("Initial ballence must be >= to 0.00")
+        
+        self.name       = name
+        self._balance    = balance
+        self.phone      = phoneNumber
+        
+
+    def deposite(self, amount):
+        #Deposit money into account
+
+        if amount < Decimal('0.00'):
+            raise ValueError("amount must be positive")
+        
+        self._balance += amount
+
+    def getBalance(self):
+
+        return(self._balance)
+
+def main():
+    print("Looking at Acount\n")
+
+    account1 = Account('John Green', Decimal('50.00'), '456-9876')
+
+    print("The account of", account1.name, 'is:', account1.getBalance())
+
+    print("The account of", account1.name, 'is:', account1._balance)
+    
+
+main()
+'''
+'''
+class Person:
+    #Person class for future work
+
+    def __init__(self, firstName, lastName, ID, email, phoneNumber):
+        self.firstName   = firstName
+        self.lastName    = lastName
+        self.ID          = ID
+        self.email       = email
+        self.phoneNumber = phoneNumber
+
+
+def main():
+
+    person1 = Person('George', 'Washington', 1234, 'g.washington@email.edu', '555-555-0123')
+
+    print("Instance created for", person1.firstName, person1.lastName)
+
+
+main()
+
 '''
 
 # 5/9/24 #
@@ -780,13 +874,13 @@ print(numbers ** 2)
 # 9/17/24 #
 #Dictionaries
 
-
+'''
 # '1' is the key, 'Patrick' is the value
 myDictionary = {1: 2 , 2 : ['Everyone', 'else']}
 
 #Updating a dictionary
 myDictionary[2] = 'Whatever'
-#print(myDictionary)
+print(myDictionary)
 
 #Adding to a dictionary
 myDictionary['Samus'] = .007 #Keys can be different types
@@ -794,17 +888,17 @@ myDictionary['Samus'] = .007 #Keys can be different types
 myDictionary[2] = ['Everyone', 'else']
 
 #Print just the value
-#print(myDictionary[2]) 
+print(myDictionary[2]) 
 
 #Updating a list within a dictionary
 myDictionary[2][1] = 'elsewhere'
-#print(myDictionary)
+print(myDictionary)
 
 # Getting only keys or values and turning them into a list
-#print(list(myDictionary.values()))
+print(list(myDictionary.values()))
 
 #itterating over the dictionary
 
-#for key, value in myDictionary.items():
-#    print(f'{key} is connected to {value}')
-
+for key, value in myDictionary.items():
+    print(f'{key} is connected to {value}')
+'''
