@@ -822,6 +822,59 @@ main()
 
 '''
 
+# 10/3/24
+
+#Read/ Write property
+
+class Length:
+
+    def __init__(self, feet, inches):
+
+        self._totalInches = (feet * 12) + inches
+
+    @property
+    def inches(self):
+        extraInches = self._totalInches % 12
+        return extraInches
+    
+    @inches.setter
+    def inches(self, inInches):
+        feetInches = self._totalInches - self.inches
+        self._totalInches = feetInches + inInches
+    
+    @property
+    def feet(self):
+        theFeet = (self._totalInches - self.inches) / 12
+        return(theFeet)
+    
+    def __str__(self):
+        '''Return string of feet and inches'''
+        return(str(self.feet) + 'ft ' + str(self.inches) + 'in')
+
+
+def main():
+
+    myBoard = Length(100, 5)
+
+    print(myBoard)
+
+    myBoard.inches = 7
+
+    print(myBoard)
+
+
+
+main()
+
+
+
+
+
+
+
+
+
+
 # 5/9/24 #
 '''
 class CellPhone():
@@ -902,3 +955,4 @@ print(list(myDictionary.values()))
 for key, value in myDictionary.items():
     print(f'{key} is connected to {value}')
 '''
+
