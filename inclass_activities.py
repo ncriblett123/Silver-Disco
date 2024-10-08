@@ -821,7 +821,7 @@ def main():
 main()
 
 '''
-
+'''
 # 10/3/24
 
 #Read/ Write property
@@ -848,7 +848,7 @@ class Length:
         return(theFeet)
     
     def __str__(self):
-        '''Return string of feet and inches'''
+        #Return string of feet and inches
         return(str(self.feet) + 'ft ' + str(self.inches) + 'in')
 
 
@@ -866,10 +866,79 @@ def main():
 
 main()
 
+'''
+
+# 10/8/24 #
+#Inheritence
+
+'''
+Person Class
+Super or parent
+'''
+
+class Person(object): #object is impliciate if not specified
+    
+    #constructor
+    def __init__(self, name, ID):
+        self.name   = name
+        self.ID     = ID
+
+    def Display(self):
+        print(self.name, self.ID)
+
+
+
+class SalariedEmployee(Person):
+
+    def __init__(self, name, ID, salary, post):
+
+        super().__init__(name, ID)
+        self.salary = salary
+        self.post = post
+
+
+    def printUs(self):
+        print(f"Employee class called {self.name}")
+
+    def Display(self): #function override
+        '''
+        This display function in the employee class overrides the display function in the person class
+        '''
+        print(self.ID, self.name, self.salary, self.post)
+
+    def getPay(self):
+
+        return self.salary
+
+
+
+class HourlyEmployee(Person):
+
+    #constructor
+    def __init__(self, name, ID, wage, hoursWorked, position):
+        super().__init__(name, ID)
+        self.wage = wage
+        self.hoursWorked = hoursWorked
+        self.position = position
+
+    def getPay(self):
+
+        return self.hoursWorked * self.wage
+        
 
 
 
 
+mySalEmp = SalariedEmployee("Bill", 745, 5000, 'Intern')
+myHourEmp = HourlyEmployee("Jack", 527, 20, 30, 'Bussboy')
+
+print(mySalEmp.name, mySalEmp.getPay())
+print(myHourEmp.name, myHourEmp.getPay())
+
+staff = [mySalEmp, myHourEmp]
+
+for i in staff:
+    print(i.name, i.getPay())
 
 
 
