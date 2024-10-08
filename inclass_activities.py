@@ -875,7 +875,7 @@ main()
 Person Class
 Super or parent
 '''
-
+'''
 class Person(object): #object is impliciate if not specified
     
     #constructor
@@ -901,9 +901,9 @@ class SalariedEmployee(Person):
         print(f"Employee class called {self.name}")
 
     def Display(self): #function override
-        '''
-        This display function in the employee class overrides the display function in the person class
-        '''
+        
+        #This display function in the employee class overrides the display function in the person class
+        
         print(self.ID, self.name, self.salary, self.post)
 
     def getPay(self):
@@ -941,7 +941,7 @@ for i in staff:
     print(i.name, i.getPay())
 
 
-
+'''
 
 
 # 5/9/24 #
