@@ -1025,3 +1025,99 @@ for key, value in myDictionary.items():
     print(f'{key} is connected to {value}')
 '''
 
+# 10/15/24
+#properties
+'''
+
+class Person():
+
+    def __init__(self, name, idNum):
+        self._name = name
+        self._idNum = idNum
+
+    def setName(self, inName):
+        self._name = inName
+
+    def getName(self):
+        return self._name
+    
+    @property
+    def idNum(self):
+        return self._idNum
+    
+    @idNum.setter
+    def idNum(self, idNum):
+        self._idNum = idNum
+
+    def setidNum(self, ID):
+        self._idNum = ID
+
+    def getidNum(self):
+        return self._idNum
+
+
+
+aPerson = Person('Joe', 1234)
+
+aPerson._idNum = 555
+print('ID is', aPerson._idNum)
+print('idNum from getidNum is', aPerson.getidNum())
+
+aPerson.idNum = 444
+print('ID is', aPerson._idNum)
+print('idNum is', aPerson.idNum)
+'''
+
+class Time:
+    def __init__(self, hour, minute, second):
+        self._totalSeconds = (hour * 3600) + (minute * 60) + second
+
+    def setTime(self, hour, minute, second):
+        self._totalSeconds = (hour * 3600) + (minute * 60) + second
+
+    @property
+    def hour(self):
+        return self._totalSeconds // 3600
+
+
+    @property
+    def minute(self):
+        return (self._totalSeconds % 3600) // 60
+
+    @property
+    def second(self):
+        return (self._totalSeconds % 60)
+
+
+    @hour.setter
+    def hour(self, inHour):
+        setTime(inHour, self.minute, self.second)
+
+    @minute.setter
+    def minute(self, inMinute):
+        setTime(self.hour, inMinute, self.second)
+
+    @second.setter
+    def second(self, inSecond):
+        setTime(self.hour, self.minute, inSecond)
+
+    
+
+
+def main():
+
+ #Get time since midnight
+    userTime = (input("Enter the time in 24:00:00 clock to find the seconds since midnight(hh:mm:ss): "))
+
+    #Create object with the user time
+    userTime = userTime.split(':')
+    timeSinceMidnight = Time(int(userTime[0]), int(userTime[1]), int(userTime[2]))
+
+    print(f"{timeSinceMidnight.hour}:{timeSinceMidnight.minute}:{timeSinceMidnight.second} is {timeSinceMidnight._total_seconds} seconds since midnight")
+
+main()
+
+    
+
+
+
