@@ -6,6 +6,7 @@
 # imports #
 from statistics import * #imports statistics
 from decimal import Decimal #imports decimal
+from abc import ABC, abstractmethod #imports abstract classes
 import os
 import csv
 
@@ -1067,7 +1068,7 @@ aPerson.idNum = 444
 print('ID is', aPerson._idNum)
 print('idNum is', aPerson.idNum)
 '''
-
+'''
 class Time:
     def __init__(self, hour, minute, second):
         self._totalSeconds = (hour * 3600) + (minute * 60) + second
@@ -1078,7 +1079,6 @@ class Time:
     @property
     def hour(self):
         return self._totalSeconds // 3600
-
 
     @property
     def minute(self):
@@ -1100,6 +1100,7 @@ class Time:
     @second.setter
     def second(self, inSecond):
         setTime(self.hour, self.minute, inSecond)
+    
 
     
 
@@ -1107,17 +1108,149 @@ class Time:
 def main():
 
  #Get time since midnight
-    userTime = (input("Enter the time in 24:00:00 clock to find the seconds since midnight(hh:mm:ss): "))
-
+    #userTime = (input("Enter the time in 24:00:00 clock to find the seconds since midnight(hh:mm:ss): "))
+    userTime = '12:18:30'
+                
     #Create object with the user time
     userTime = userTime.split(':')
     timeSinceMidnight = Time(int(userTime[0]), int(userTime[1]), int(userTime[2]))
 
-    print(f"{timeSinceMidnight.hour}:{timeSinceMidnight.minute}:{timeSinceMidnight.second} is {timeSinceMidnight._total_seconds} seconds since midnight")
+    print(f"{timeSinceMidnight.hour}:{timeSinceMidnight.minute}:{timeSinceMidnight.second} is {timeSinceMidnight._totalSeconds} seconds since midnight")
+
+    timeSinceMidnight.hour = '5' # Will Access the setter
+    print(timeSinceMidnight.hour, timeSinceMidnight.minute, timeSinceMidnight.second)
 
 main()
+'''
 
+# 10/17/24 #
+# Abstract classes
+'''
+Abstract classes are classes that aren't intended to create objects with
+Sets the path for the decendant classes
+Not intended to make instances with
+'''
+'''
+Script for abstract ideas
+'''
+'''
+from abc import ABC, abstractmethod
+
+class Phone(ABC):
+    def __init__(self, model):
+        self.model = model
+
+    @property
+    @abstractmethod
+    def power(self):
+        pass
+
+    @abstractmethod
+    def callTarget(self, name):
+        # callTarget cannot be sed in this class but the decentant must define callTarget in it's own class
+        # ... or pass is away to mark the method
+        #...
+        pass
+
+
+class iBanana(Phone):
+
+    def __init__(self, model):
+        super().__init__(model)
+
+    def getModel(self):
+        return self.model
     
+    def callTarget(self, name):
+        raise NotImplementedError('code missing')
+
+
+    @property
+    def power(self):
+        return ('Batery low, 5%')
+    
+    
+
+
+
+myPhone = Phone('iPhone')
+print(myPhone.model)
+
+#Raises an error: cannot create an instance of an abstract method
+#myPhone.callTarget('Jackie')
+
+
+myBanana = iBanana('Sugar')
+
+try:
+    myBanana.callTarget('Jackie')
+except Exception as e:
+    print(e)
+
+
+print(myBanana.power)
+'''
+#Abstract class assignment
+
+from abc import ABC, abstractmethod
+
+class Employee(ABC):
+
+    def __init__(self, firstName, lastName, socialSecurity):
+        self._firstName = firstName
+        self._lastName = lastName
+        self._socialSecurity = socialSecurity
+
+    @property
+    def firstName(self):
+        return self._firstName
+    
+    @property
+    def lastName(self):
+        return self._lastName
+    
+    @property
+    def socialSecurity(self):
+        return self._socialSecurity
+    
+    
+    @abstractmethod
+    def earning(self):
+        pass
+    
+
+    def __repr__(self):
+        return (f"{self.firstName} {self.lastName} {self.socialSecurity}")
+    
+
+
+
+class SalariedEmployee(Employee):
+
+    def __init__(self, firstName, lastName, socialSecurity, weeklySalary):
+        super().__init__(firstName, lastName, socialSecurity)
+        self.weeklySalary = weeklySalary
+
+    @property
+    def weeklySalary(self):
+        return self._weeklySalary
+    
+    @weeklySalary.setter
+    def weeklySalary(self, inSalary):
+        if inSalary < 0:
+            raise NotImplementedError('code missing')
+        
+        self.salary = inSalary
+
+
+    def __repr__(self):
+        return(f"Salaried Employee: {self.firstName}, {self.lastName}, {self.socialSecurity}, Salary: {self.salary}")
+
+
+class HourlyEmployee(Employee):
+
+    def __init__(self, firstName, lastName, socialSecurity):
+        super().__init__(firstName, lastName, socialSecurity)
 
 
 
