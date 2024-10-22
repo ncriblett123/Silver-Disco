@@ -6,9 +6,9 @@
 # imports #
 from statistics import * #imports statistics
 from decimal import Decimal #imports decimal
-from abc import ABC, abstractmethod #imports abstract classes
 import os
-import csv
+import csv #import comma seperated value files
+from abc import ABC, abstractmethod # Imports abstract methods
 
 
 
@@ -1191,7 +1191,7 @@ except Exception as e:
 print(myBanana.power)
 '''
 #Abstract class assignment
-
+'''
 from abc import ABC, abstractmethod
 
 class Employee(ABC):
@@ -1252,5 +1252,102 @@ class HourlyEmployee(Employee):
     def __init__(self, firstName, lastName, socialSecurity):
         super().__init__(firstName, lastName, socialSecurity)
 
+'''
+
+# 10/22/24 #
+# Recursions
+
+'''
+For solving a recursion problem
+
+Determine the base case
+determine the general case
+Work down until the base case is solved then work backwards
+'''
+
+#Exponent assignment
+
+'''
+y^n
+
+general case: y^n = y * y^n-1
+
+base case: y^n = y * y^1 # n = 1
+'''
+'''
+def power(base, exponent):
+
+    #base case
+    if exponent == 1:
+        return base
+    
+    #general case
+    else:
+        return base * power(base, exponent - 1)
+
+def main():
+    num = power(5,7)
+    print(num)
+
+main()
+
+'''
+
+#Fibonacci sequence
+'''
+global count
+count = 0
+
+def fibonacci(n):
+
+    global count
+    count += 1
+
+    #base case
+    if n in (0,1):
+        return n
+
+    #General case
+    else:
+        return fibonacci(n - 1) + fibonacci(n - 2)
+    
+       
+
+def main():
+
+  
+
+    num = fibonacci(20)
+    print(num)
+    print (count)
+
+main()
+'''
+#Fibonacci sequence
 
 
+def fibonacci(n):
+
+    
+    #base case
+    if n in (0,1):
+        return n, 1
+
+    #General case
+    else:
+        fib1, count1 = fibonacci(n - 1) 
+        fib2, count2 = fibonacci(n - 2)
+
+        return(fib1 + fib2, count1 + count2 + 1)
+    
+       
+
+def main():
+
+  
+
+    num, count = fibonacci(4)
+    print(num)
+    print (count)
+
+main()
