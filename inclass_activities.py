@@ -8,7 +8,7 @@ from statistics import * #imports statistics
 from decimal import Decimal #imports decimal
 import os
 import csv #import comma seperated value files
-from abc import ABC, abstractmethod # Imports abstract methods
+from abc import ABC, abstractmethod # Imports abstract methods and classes
 
 
 
@@ -1324,7 +1324,7 @@ def main():
 main()
 '''
 #Fibonacci sequence
-'''
+
 
 def fibonacci(n):
 
@@ -1344,11 +1344,33 @@ def fibonacci(n):
 
 def main():
 
-  
+    n = [10, 20, 30]
+    for i in n:
 
-    num, count = fibonacci(4)
-    print(num)
-    print (count)
+        num, count = fibonacci(i)
+        print(f"The solution to the {i}th fibonacci is {num}")
+        print(f'Fibonacci was executed {count} times\n')
 
 main()
+
+
+# 10/24/24 #
+#Towers of Hanoi Lab
+
+'''
+def TowerOfHanoi(n , source, destination, auxiliary):
+
+    if n==1:
+        print ("Move disk 1 from source",source,"to destination",destination)
+        return
+
+    TowerOfHanoi(n-1, source, auxiliary, destination)
+
+    print ("Move disk",n,"from source",source,"to destination",destination)
+
+    TowerOfHanoi(n-1, auxiliary, destination, source)
+        
+# Driver code
+n = 6
+TowerOfHanoi(n,'A','B','C') 
 '''
