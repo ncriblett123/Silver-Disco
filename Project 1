@@ -1,60 +1,244 @@
-#This is where my project 1 will be uploaded
+'''
+Nick Riblett
+CIS 131
+11/3/24
+
+This is my Project 1 where the program will read in data from a file and store it in a list as class object
+The user will be presented a menu for diplaying different information
+'''
 
 #PROJECT#
+from abc import ABC, abstractmethod
+from datetime import date
 
-roleDictionay = {'001': 'Satff', '002': 'Faculty'}
-classificationDictionary = {'001': 'Full-time', '002': 'Part-time'}
 
 class Person(ABC):
+
+    roleDictionary           = {'001': 'Satff', '002': 'Faculty'}
+    classificationDictionary = {'001': 'Full-time', '002': 'Part-time'}
     
-    def __init__(self, firstName, lastName, idNumber, emailAdress, phoneNumber):
-        self.firstname = firstName
-        self.lastName = lastName
-        self.idNumber = idNumber
-        self.emailAdress = emailAdress
-        self.phoneNumber = phoneNumber
+    def __init__(self, lastName, firstName, idNumber, emailAdress, phoneNumber):
+        self._firstName = firstName
+        self._lastName = lastName
+        self._idNumber = idNumber
+        self._emailAdress = emailAdress
+        self._phoneNumber = phoneNumber
     
     @property
     def firstName(self):
-        return self.firstName
+        return self._firstName
+    
+    @firstName.setter
+    def firstName(self, firstName):
+        if firstName is type(str):
+            self._firstName = firstName
+        else:
+            raise Exception("First Name must be leters")
 
     @property
     def lastname(self):
-        return self.lastName
+        return self._lastName
+    
+    @lastname.setter
+    def lastName(self, lastName):
+        if lastName is type(str):
+            self._lastname = lastName
+        else:
+            raise Exception("Last Name must be letters")
     
     @property
     def idNumber(self):
-        return self.idNumber
+        return self._idNumber
 
     @property
     def emailAdress(self):
-        return self.emailAdress
+        return self._emailAdress
+    
+    @emailAdress.setter
+    def emailAdress(self, emailAdress):
+        self._emailAdress = emailAdress
 
     @property
     def phoneNumber(self):
-        return self.phoneNumber
+        return self._phoneNumber
+    
+    @phoneNumber.setter
+    def phoneNumber(self, phoneNumber):
+        if len(phoneNumber) == 12:
+            self._phoneNumber = phoneNumber
+        else:
+            raise Exception("Phone number must be 12 digets")
+
+    def __repr__(self):
+        print(f"{self.lastName} {self.firstName} {self.idNumber} {self.emailAdress} {self.phoneNumber}")
+
+    def __str__(self):
+        print(f"{self.lastName} {self.firstName} {self.idNumber} {self.emailAdress} {self.phoneNumber}")
 
 
 class Employee(Person):
-    def __init__(self, firstName, lastName, idNumber, emailAdress, phoneNumber, hireDate, rolePerson, classificationPerson, annualSalary):
-        super().__init__(firstName, lastName, idNumber, emailAdress, phoneNumber)
-        self.hireDate = hireDate
-        self.rolePerson = rolePerson
-        self.classificationPerson = classificationPerson
-        self.annualSalary = annualSalary
+
+    def __init__(self, lastName, firstName, idNumber, emailAdress, phoneNumber, hireDate, classificationPerson, rolePerson, annualSalary):
+        super().__init__(lastName, firstName, idNumber, emailAdress, phoneNumber)
+        self._hireDate = hireDate
+        self._rolePerson = rolePerson
+        self._classificationPerson = classificationPerson
+        self._annualSalary = annualSalary
 
     @property
     def hireDate(self):
-        return self.hireDate
+
+        #skip first line of file
+        if '/' in self._hireDate:
+            day, month, year = self._hireDate.split('/')
+
+        else: 
+            return self._hireDate
+        
+        self._hireDate = date(int(year), int(month), int(day))
+
+        return self._hireDate
+
 
     @property
     def rolePerson(self):
-        return self.rolePerson
+        return self._rolePerson
+
+    @rolePerson.setter
+    def rolePerson(self, rolePerson):
+        if rolePerson == 'Staff':
+            self._rolePerson = '001'
+        elif rolePerson == 'Faculty':
+            self._rolePerson = '002'
 
     @property
     def classificationPerson(self):
-        return self.classificationPerson
+        return self._classificationPerson
+    
+    @classificationPerson.setter
+    def classificationPerson(self, classifcationPerson):
+        if 'Full' in classifcationPerson:
+            self._classificationPerson = '001'
+        elif 'Part' in classifcationPerson:
+            self._classificationPerson = '002'
+
 
     @property 
     def annualSalary(self):
-        return self.annualSalary
+        return self._annualSalary
+    
+    @annualSalary.setter
+    def annualSalary(self, annualSalary):
+        self._annualSalary = annualSalary
+
+    def __str__(self):
+        print(f"{self.lastName:<10} {self.firstName:<10} {self.idNumber:<10} {self.emailAdress:<30} {self.phoneNumber:<20} {self._hireDate:<15} {self.classificationDictionary[self._classificationPerson]:<15} {self.roleDictionary[self._rolePerson]:<15} {self.annualSalary:<15}")
+    
+def getEmployees():
+    '''This function will load every line from 'employee.txt' into a list as class objects'''
+
+    empList = []
+    i = 0
+
+    #open file
+    with open('employees.txt', 'r') as employee:
+
+        #load line by line into empList
+        for person in employee:
+
+            #Get all variables
+            lastName, firstName, idNum, email, phone, hireDate, classification, role, salary = person.split()
+
+            #Create a temporary object used to create the list
+            temp = Employee(lastName, firstName, idNum, email, phone, hireDate, classification, role, salary)
+
+            #Set classification as a dictionary key
+            temp.classificationPerson = classification
+
+            #Set role as a dictionary key
+            temp.rolePerson = role
+
+            #Create list
+            empList.append(temp)
+
+            #Show name added
+            print(f"{empList[i].firstName} {empList[i].lastName} added")
+
+            #next index
+            i += 1
+
+        print()
+    
+    #Return list
+    return empList
+
+def DisplayEmploymentInformation(empList):
+    '''This function will display the employment info'''
+
+    for i in empList:
+
+        #Print first line
+        if i == empList[0]:
+            print(f"{i.lastName:<10} {i.firstName:<10} {i.idNumber:<10} {i.emailAdress:<30} {i.phoneNumber:<20} {i._hireDate:<15} {i._classificationPerson:<15} {i._rolePerson:<15} {i.annualSalary:<15}")
+       
+       #Print the rest
+        else:
+            i.__str__()
+
+
+def DisplayContactInformation(empList):
+    '''This function will display the contact information'''
+
+    for i in empList:
+        print(f"{i.lastName:<10} {i.firstName:<10} {i.idNumber:<10} {i.emailAdress:<30} {i.phoneNumber:<20}")
+
+
+def createMenu(empList):
+    '''This function will create the menu for the user to select'''
+
+    keepGoing = 'y'
+    while keepGoing == 'y':
+
+        #Display menu
+        print('1. Quit')
+        print('2. Display Employee Employment Information')
+        print('3. Display Employee Contact Information')
+
+        #Get input
+        userInput = int(input())
+        print()
+
+        #check if user entered correct value
+        if userInput not in (1,2,3):
+            print(f"\nI'm sorry {userInput} is not an option\n")
+
+        #Terminate if 1 entered
+        elif userInput == 1:
+            print('Thank you for using the system.')
+            print()
+            print('Now exiting the program…')
+            keepGoing = 'n'
+
+        #Show employment info if 2 entered
+        elif userInput == 2:
+            
+            #Call displayEmploymentInformation
+            DisplayEmploymentInformation(empList)
+            print()
+
+        #Display conact info if 3 is entered
+        elif userInput == 3:
+
+            #Call DisplayContactInformation
+            DisplayContactInformation(empList)
+            print()
+
+
+
+
+def main():
+
+    employeeList = getEmployees()
+    createMenu(employeeList)
+
+main()
