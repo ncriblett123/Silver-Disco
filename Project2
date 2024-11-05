@@ -7,7 +7,7 @@ This is my Project 1 where the program will read in data from a file and store i
 The user will be presented a menu for diplaying different information
 '''
 
-#PROJECT 2#
+#PROJECT#
 from abc import ABC, abstractmethod
 from datetime import date
 
@@ -252,6 +252,7 @@ def DisplayEmploymentInformation(empList):
     for i in empList:
 
         #Print first line
+        #Doing this due to the dictionary being acessed in the else statement
         if i == empList[0]:
             print(f"{i.lastName:<10} {i.firstName:<10} {i.idNumber:<10} {i.emailAdress:<30} {i.phoneNumber:<20} {i._hireDate:<15} {i._classificationPerson:<15} {i._rolePerson:<15} {i.annualSalary:<15}")
        
@@ -329,14 +330,17 @@ def createMenu(empList, studentList, personList):
             DisplayContactInformation(empList)
             print()
 
+        #Display student info if 4 is entered
         elif userInput == 4:
 
+            #Call DisplayStudentContactInformation
             DisplayStudentContactInformation(studentList)
             print()
 
-
+        #Display everyone's information if 5 is entered
         elif userInput == 5:
 
+            #Call DisplayPersonInformation
             DisplayPersonInformation(personList)
             print()
 
@@ -347,13 +351,11 @@ def main():
 
     employeeList = getEmployees()
 
-
     studentList = CreateStudent()
 
     personList = CreatePersonList(employeeList, studentList)
 
     createMenu(employeeList, studentList, personList)
-
 
 
 main()
