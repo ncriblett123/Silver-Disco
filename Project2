@@ -1,22 +1,24 @@
 '''
 Nick Riblett
 CIS 131
-11/3/24
+11/17/24
 
-This is my Project 1 where the program will read in data from a file and store it in a list as class object
+This is my Project 2 where the program will read in data from a  2 different files and store it in a list as class object
 The user will be presented a menu for diplaying different information
 '''
 
-#PROJECT#
+#Imports
 from abc import ABC, abstractmethod
 from datetime import date
 
 
 class Person(ABC):
 
+    #Class dictionaries
     roleDictionary           = {'001': 'Satff', '002': 'Faculty'}
     classificationDictionary = {'001': 'Full-time', '002': 'Part-time'}
     
+    #Init function
     def __init__(self, lastName, firstName, idNumber, emailAdress, phoneNumber):
         self._firstName = firstName
         self._lastName = lastName
@@ -24,6 +26,7 @@ class Person(ABC):
         self._emailAdress = emailAdress
         self._phoneNumber = phoneNumber
     
+    #First name - can be changed
     @property
     def firstName(self):
         return self._firstName
@@ -35,6 +38,7 @@ class Person(ABC):
         else:
             raise Exception("First Name must be leters")
 
+    #Last name - can be changed
     @property
     def lastname(self):
         return self._lastName
@@ -46,10 +50,12 @@ class Person(ABC):
         else:
             raise Exception("Last Name must be letters")
     
+    #ID number - cannot be changed
     @property
     def idNumber(self):
         return self._idNumber
 
+    #Email adress - can be changed
     @property
     def emailAdress(self):
         return self._emailAdress
@@ -58,6 +64,8 @@ class Person(ABC):
     def emailAdress(self, emailAdress):
         self._emailAdress = emailAdress
 
+
+    #Phone number - can be changed
     @property
     def phoneNumber(self):
         return self._phoneNumber
@@ -69,10 +77,11 @@ class Person(ABC):
         else:
             raise Exception("Phone number must be 12 digets")
 
+    #Repr function
     def __repr__(self):
         print(f"{self.lastName:<10} {self.firstName:<10} {self.idNumber:<10} {self.emailAdress:<30} {self.phoneNumber:<20}")
 
-
+    #String function
     def __str__(self):
         print(f"{self.lastName:<10} {self.firstName:<10} {self.idNumber:<10} {self.emailAdress:<30} {self.phoneNumber:<20}")
 
@@ -86,44 +95,60 @@ class Employee(Person):
         self._classificationPerson = classificationPerson
         self._annualSalary = annualSalary
 
+    #Hire date - cannot be changed
     @property
     def hireDate(self):
 
         #skip first line of file
         if '/' in self._hireDate:
+
+            #Split the date into day, month, and year
             day, month, year = self._hireDate.split('/')
 
         else: 
             return self._hireDate
         
+        #Store hire date as a date from datetime module
         self._hireDate = date(int(year), int(month), int(day))
 
         return self._hireDate
 
-
+    #Rle person
     @property
     def rolePerson(self):
         return self._rolePerson
 
+    #Store rolePerson as a key in the dictionary
     @rolePerson.setter
     def rolePerson(self, rolePerson):
+
+        #Store variable as 001 if Staff
         if rolePerson == 'Staff':
             self._rolePerson = '001'
+
+        #Store variable as 002 is Faculty
         elif rolePerson == 'Faculty':
             self._rolePerson = '002'
 
+    #Classification
     @property
     def classificationPerson(self):
         return self._classificationPerson
     
+    #Store classificationPerson as a key in the dictionary
     @classificationPerson.setter
     def classificationPerson(self, classifcationPerson):
+
+        #Store vaiable as 001 if Full time
         if 'Full' in classifcationPerson:
             self._classificationPerson = '001'
+
+        #Store variable as 002 if Part time
         elif 'Part' in classifcationPerson:
             self._classificationPerson = '002'
 
 
+    #Annual salary
     @property 
     def annualSalary(self):
         return self._annualSalary
@@ -131,6 +156,7 @@ class Employee(Person):
     @annualSalary.setter
     def annualSalary(self, annualSalary):
         self._annualSalary = annualSalary
+
 
     def __str__(self):
         print(f"{self.lastName:<10} {self.firstName:<10} {self.idNumber:<10} {self.emailAdress:<30} {self.phoneNumber:<20} {self._hireDate:<15} {self.classificationDictionary[self._classificationPerson]:<15} {self.roleDictionary[self._rolePerson]:<15} {self.annualSalary:<15}")
@@ -185,8 +211,9 @@ def getEmployees():
     #Return list
     return empList
 
+
 def CreateStudent():
-    '''This function will create the student list'''
+    '''This function will create the student list from data from a file and load them as class objects'''
 
     studentList = []
     i = 0
@@ -220,10 +247,8 @@ def CreateStudent():
     return studentList
 
 
-
-
 def CreatePersonList(empList, studentList):
-    ''' This function will create a list with bot employees and students'''
+    ''' This function will create a list with both employees and students'''
 
     personList = []
 
@@ -235,6 +260,7 @@ def CreatePersonList(empList, studentList):
     #Load students into list
     for student in studentList:
 
+        #Skip the first line, does not contain useful information
         if student == studentList[0]:
             pass
 
@@ -244,7 +270,6 @@ def CreatePersonList(empList, studentList):
 
     return personList
 
-    return
 
 def DisplayEmploymentInformation(empList):
     '''This function will display the employment info'''
@@ -261,31 +286,11 @@ def DisplayEmploymentInformation(empList):
             i.__str__()
 
 
-
-
 def DisplayContactInformation(empList):
     '''This function will display the contact information'''
 
     for i in empList:
-        print(f"{i.lastName:<10} {i.firstName:<10} {i.idNumber:<10} {i.emailAdress:<30} {i.phoneNumber:<20}")
-
-
-
-
-def DisplayStudentContactInformation(studentList):
-    '''This function will display the students contact information'''
-
-    for i in studentList:
-        i.__str__()
-
-
-
-def DisplayPersonInformation(personList):
-    '''This function will display everyone's contact information'''
-
-    for i in personList:
         i.__repr__()
-
 
 
 def createMenu(empList, studentList, personList):
@@ -311,9 +316,8 @@ def createMenu(empList, studentList, personList):
 
         #Terminate if 1 entered
         elif userInput == 1:
-            print('Thank you for using the system.')
-            print()
-            print('Now exiting the program…')
+            print('Thank you for using the system.\n')
+            print('Now exiting the program…\n')
             keepGoing = 'n'
 
         #Show employment info if 2 entered
@@ -323,40 +327,40 @@ def createMenu(empList, studentList, personList):
             DisplayEmploymentInformation(empList)
             print()
 
-        #Display conact info if 3 is entered
+        #Display employee conact info if 3 is entered
         elif userInput == 3:
 
-            #Call DisplayContactInformation
+            #Call DisplayContactInformation with empList
             DisplayContactInformation(empList)
             print()
 
-        #Display student info if 4 is entered
+        #Display student contact info if 4 is entered
         elif userInput == 4:
 
-            #Call DisplayStudentContactInformation
-            DisplayStudentContactInformation(studentList)
+            #Call DisplayContactInformation with studentList
+            DisplayContactInformation(studentList)
             print()
 
-        #Display everyone's information if 5 is entered
+        #Display everyone's contact information if 5 is entered
         elif userInput == 5:
 
-            #Call DisplayPersonInformation
-            DisplayPersonInformation(personList)
+            #Call DisplayContactInformation with personList
+            DisplayContactInformation(personList)
             print()
-
-
 
 
 def main():
 
+    #Create employee list
     employeeList = getEmployees()
 
+    #Create student list
     studentList = CreateStudent()
 
+    #Create a list with both employees and students
     personList = CreatePersonList(employeeList, studentList)
 
+    #Create teh menue with all 3 lists
     createMenu(employeeList, studentList, personList)
 
-
 main()
-
