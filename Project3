@@ -1,9 +1,9 @@
 '''
 Nick Riblett
 CIS 131
-11/17/24
+11/19/24
 
-This is my Project 2 where the program will read in data from a  2 different files and store it in a list as class object
+This is my Project 3 where the program will read in data from a different files and store it in a list as class object
 The user will be presented a menu for diplaying different information
 '''
 
@@ -171,9 +171,8 @@ class Student(Person):
     def __init__(self, lastName, firstName, idNumber, emailAdress, phoneNumber):
         super().__init__(lastName, firstName, idNumber, emailAdress, phoneNumber)
     
-        coursesStudentDict = {'Art': 0, 'Greek': 0, 'Latin': 0, 'Science': 0, 'Mathematics': 0}
+        self.coursesStudentDict = {'Art': 0, 'Greek': 0, 'Latin': 0, 'Science': 0, 'Mathematics': 0}
         
-
 
 def getEmployees():
     '''This function will load every line from 'employee.txt' into a list as class objects'''
@@ -306,32 +305,43 @@ def getStudentScores(studentList):
     #index
     i = 0
 
+    #Open the file
     with open('scores.txt', 'r') as scores:
+
+        #Add the data from file line by line
         for studentScores in scores:
-            ID, Art, Greek, Latin, Science, Math = studentScores.split()
-            if ID == studentList[i].idNumber:
-                print(f"studentlist[i] is {studentList[i].idNumber} Art is {Art} Greek is {Greek}")
+
+            #Seperate data into individual variables
+            id, Art, Greek, Latin, Science, Math = studentScores.split()
+            if id == studentList[i].idNumber:
+
+                #Load data into student courses dictionary
                 studentList[i].coursesStudentDict['Art'] = Art  
                 studentList[i].coursesStudentDict['Greek'] = Greek
                 studentList[i].coursesStudentDict['Latin'] = Latin
                 studentList[i].coursesStudentDict['Science'] = Science
                 studentList[i].coursesStudentDict['Mathematics'] = Math
-                print(studentList[i].coursesStudentDict)
+
+                #Skip first line
+                if i == 0:
+                    pass
+                else:
+                    print(f"Added scores for {studentList[i].firstName} {studentList[i].lastName}")
             else:
                 break
+            #Index up 1
             i += 1
-
-    print("Now printing dictionary")
-    for myStudent in studentList:
-        print(myStudent.coursesStudentDict)
+    print()
     return
 
-  
 
+def DisplayStudentScore(studentList):
+    '''This function will display the student's scores'''
 
+    for i in studentList:
+        print(f"{i.lastName:<15}{i.firstName:<15}{i.idNumber:<10}{i.coursesStudentDict['Art']:<10}{i.coursesStudentDict['Greek']:<10}{i.coursesStudentDict['Latin']:<10}{i.coursesStudentDict['Science']:<10}{i.coursesStudentDict['Mathematics']}")
 
-
-
+    print()
 
 
 def createMenu(empList, studentList, personList):
@@ -346,13 +356,14 @@ def createMenu(empList, studentList, personList):
         print('3. Display Employee Contact Information')
         print('4. Display Student Contact Information')
         print('5. Display All Person Contact Information')
+        print('6. Display Student Academic Scores')
 
         #Get input
         userInput = int(input())
         print()
 
         #check if user entered correct value
-        if userInput not in (1,2,3,4,5):
+        if userInput not in (1,2,3,4,5,6):
             print(f"\nI'm sorry {userInput} is not an option\n")
 
         #Terminate if 1 entered
@@ -388,6 +399,11 @@ def createMenu(empList, studentList, personList):
             #Call DisplayContactInformation with personList
             DisplayContactInformation(personList)
             print()
+        
+        #Display ... if 6 is entered
+        elif userInput == 6:
+            DisplayStudentScore(studentList)
+
 
 
 def main():
@@ -404,7 +420,7 @@ def main():
     #Create a list with both employees and students
     personList = CreatePersonList(employeeList, studentList)
 
-    #Create teh menue with all 3 lists
+    #Create the menue with all 3 lists
     createMenu(employeeList, studentList, personList)
 
 main()
