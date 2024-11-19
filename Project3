@@ -302,6 +302,8 @@ def DisplayContactInformation(empList):
 def getStudentScores(studentList):
     '''This function will read student scores in from a txt file and search for the ID is the studentList and insert the scores into the object'''
     
+#STILL NEED INPUT VALIDATION
+
     #index
     i = 0
 
