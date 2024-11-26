@@ -302,7 +302,6 @@ def DisplayContactInformation(empList):
 def getStudentScores(studentList):
     '''This function will read student scores in from a txt file and search for the ID is the studentList and insert the scores into the object'''
     
-#STILL NEED INPUT VALIDATION
 
     #index
     i = 0
@@ -315,6 +314,8 @@ def getStudentScores(studentList):
 
             #Seperate data into individual variables
             id, Art, Greek, Latin, Science, Math = studentScores.split()
+            
+
             if id == studentList[i].idNumber:
 
                 #Load data into student courses dictionary
@@ -324,11 +325,15 @@ def getStudentScores(studentList):
                 studentList[i].coursesStudentDict['Science'] = Science
                 studentList[i].coursesStudentDict['Mathematics'] = Math
 
-                #Skip first line
-                if i == 0:
+                #Check to see of courses are in course list
+                if Art in studentList[i].courseNameList and Greek in studentList[i].courseNameList and Latin in studentList[i].courseNameList and Science in studentList[i].courseNameList and Math in studentList[i].courseNameList:
+                    print('\nCurrent courses are in course list\n')
                     pass
+
+                #print the scores added
                 else:
                     print(f"Added scores for {studentList[i].firstName} {studentList[i].lastName}")
+
             else:
                 break
             #Index up 1
