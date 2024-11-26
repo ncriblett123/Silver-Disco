@@ -327,7 +327,7 @@ def getStudentScores(studentList):
 
                 #Check to see of courses are in course list
                 if Art in studentList[i].courseNameList and Greek in studentList[i].courseNameList and Latin in studentList[i].courseNameList and Science in studentList[i].courseNameList and Math in studentList[i].courseNameList:
-                    print('\nCurrent courses are in course list\n')
+                    print('\nAll current courses are in course list\n')
                     pass
 
                 #print the scores added
