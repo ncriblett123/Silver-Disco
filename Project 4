@@ -347,26 +347,36 @@ def DisplayStudentScore(studentList):
     '''This function will display the student's scores'''
 
     index = 0
-
+    #Loop through stundent list to get all scores, min ,max, average, and grade
     for i in studentList:
+        
+        #Print the header
         if index == 0:
             print(f"{i.lastName:<15}{i.firstName:<15}{i.idNumber:<10}{i.coursesStudentDict['Art']:<10}{i.coursesStudentDict['Greek']:<10}{i.coursesStudentDict['Latin']:<10}{i.coursesStudentDict['Science']:<10}{i.coursesStudentDict['Mathematics']:<15}{'High':<10}{'Low':<10}{'Average':<10}{'Grade':<10}")
             index += 1
+
+        
         else:
+
+            #Min, Max, Average from getStudentHighLowAve
             high, low, average = getStudentHighLowAve(i)
 
+            #call getGrade for the letter grade
             grade = getGrade(average)
 
+            #Print results
             print(f"{i.lastName:<15}{i.firstName:<15}{i.idNumber:<10}{i.coursesStudentDict['Art']:<10}{i.coursesStudentDict['Greek']:<10}{i.coursesStudentDict['Latin']:<10}{i.coursesStudentDict['Science']:<10}{i.coursesStudentDict['Mathematics']:<15}{high:<10}{low:<10}{average:<10}{grade:<10}")
             
     print()
-
+    
+    #Get subject min, max, average from getSubjHighLowAve by sending in different keys
     artTuple = getSubjHighLowAve(studentList, 'Art')
     greekTuple = getSubjHighLowAve(studentList, 'Greek')
     LatinTuple = getSubjHighLowAve(studentList, 'Latin')
     ScienceTuple = getSubjHighLowAve(studentList, 'Science')
     MathTuple = getSubjHighLowAve(studentList, 'Mathematics')
 
+    #Print, Max, Min, and Average
     print(f"{'High':<5}{artTuple[0]:>37}{greekTuple[0]:>10}{LatinTuple[0]:>10}{ScienceTuple[0]:>10}{MathTuple[0]:>10}")
     print(f"{'Low':<5}{artTuple[1]:>37}{greekTuple[1]:>10}{LatinTuple[1]:>10}{ScienceTuple[1]:>10}{MathTuple[1]:>10}")
     print(f"{'Average':<5}{artTuple[2]:>37}{greekTuple[2]:>8}{LatinTuple[2]:>11}{ScienceTuple[2]:>10}{MathTuple[2]:>10}")
@@ -374,19 +384,28 @@ def DisplayStudentScore(studentList):
 
     print()
 
-def getSubjHighLowAve(studentList, key):
 
+def getSubjHighLowAve(studentList, key):
+    '''This function will get the subject's min, max, and average'''
+
+    #Variables
     subjList= []
     maxVal = 0
     minVal = 0
     aveVal = 0
 
+    #Add scores to the subject list depending on the key entered
     for i in studentList:
+
+        #Skip first line
         if i.coursesStudentDict[key] in i.courseNameList:
             pass
+
+        #Add score to list
         else:
             subjList.append(int(i.coursesStudentDict[key]))
 
+    #Calculate min, max, and average
     maxVal = max(subjList)    
     minVal = min(subjList)
     aveVal = mean(subjList)
@@ -394,20 +413,23 @@ def getSubjHighLowAve(studentList, key):
     return (maxVal, minVal, aveVal)
 
 
-
 def getStudentHighLowAve(student):
+    '''This function will get the individual student's min, max, and average'''
 
+    #Variables
     maxVal = 0
     minVal = 0
     aveVal = 0
     studentScoreList = []
 
+    #Add each score to the score list
     studentScoreList.append(int(student.coursesStudentDict['Art']))
     studentScoreList.append(int(student.coursesStudentDict['Greek']))
     studentScoreList.append(int(student.coursesStudentDict['Latin']))
     studentScoreList.append(int(student.coursesStudentDict['Science']))
     studentScoreList.append(int(student.coursesStudentDict['Mathematics']))
 
+    #Calculate min, max, and average
     maxVal = max(studentScoreList)
     minVal = min(studentScoreList)
     aveVal = mean(studentScoreList)
@@ -416,6 +438,7 @@ def getStudentHighLowAve(student):
     
 
 def getGrade(average):
+    '''This function will get the letter grade from the average'''
 
     if average <= 59:
         return('F')
@@ -430,21 +453,43 @@ def getGrade(average):
 
 
 def lookUpStudentAcademicRecord(studenList, idNum):
-    
+    '''This function will find the student the user is looking for'''
+
+    #compare user entered number to studentID to find the match
     for i in studenList:
         if i.idNumber == idNum:
             return i
         
 
-#Finish This
 def getHonorRoll(studentList):
+    '''This function will display the honor roll'''
+
+    #List to keep track of honor roll student
     honorRollList = []
 
+    #Header
+    print(f"{'LastName':<15}{'FirstName':<15}{'StudentID':<10}{'Art':<10}{'Greek':<10}{'Latin':<10}{'Science':<10}{'Mathematics':<15}{'High':<10}{'Low':<10}{'Average':<10}{'Grade':<10}")
+    
+    #Loop through student list to find honor roll student
     for i in studentList:
+
+        #Skio first line
         if i.coursesStudentDict['Art'] in i.courseNameList:
             pass
+
         else:
+            #get min, max, average, and grade
             Min, Max, Average = getStudentHighLowAve(i)
+            grade = getGrade(Average)
+
+            #If grade is A add student to honor roll list
+            if grade == 'A':
+                honorRollList.append(i)
+
+                #Print honor roll students info
+                print(f"{i.lastName:<15}{i.firstName:<15}{i.idNumber:<10}{i.coursesStudentDict['Art']:<10}{i.coursesStudentDict['Greek']:<10}{i.coursesStudentDict['Latin']:<10}{i.coursesStudentDict['Science']:<10}{i.coursesStudentDict['Mathematics']:<15}{Max:<10}{Min:<10}{Average:<10}{grade:<10}")
+    print()
+
 
 def createMenu(empList, studentList, personList):
     '''This function will create the menu for the user to select'''
@@ -460,7 +505,7 @@ def createMenu(empList, studentList, personList):
         print('5. Display All Person Contact Information')
         print('6. Display Full Academic Record')
         print('7. Display Academic Report for one Student')
-        print('8 Display Honor Roll')
+        print('8. Display Honor Roll')
 
         #Get input
         userInput = int(input())
@@ -504,11 +549,11 @@ def createMenu(empList, studentList, personList):
             DisplayContactInformation(personList)
             print()
         
-        #Display ... if 6 is entered
+        #Display student acedemics if 6 is entered
         elif userInput == 6:
             DisplayStudentScore(studentList)
 
-        
+        #Display individual student record if 7 is entered
         elif userInput == 7:
             studenID = input("Enter studen ID number: ")
             print()
@@ -521,10 +566,9 @@ def createMenu(empList, studentList, personList):
             print(f"{student.lastName:<15}{student.firstName:<10}{student.idNumber:<10}{student.coursesStudentDict['Art']:<10}{student.coursesStudentDict['Greek']:<10}{student.coursesStudentDict['Latin']:<10}{student.coursesStudentDict['Science']:<10}{student.coursesStudentDict['Mathematics']:<10}{maxVal:<10}{minVal:<10}{average:<10}{grade:<10}")
             print()
 
+        #Display honor roll if 8 is entered
         elif userInput == 8:
-            getHonorRoll()
-
-
+            getHonorRoll(studentList)
 
 
 def main():
