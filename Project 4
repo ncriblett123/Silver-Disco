@@ -1,1 +1,547 @@
-#Project 4
+'''
+Nick Riblett
+CIS 131
+12/05/24
+
+This is my Project 4 where the program will read in data from a different files and store it in a list as class object
+The user will be presented a menu for diplaying different information
+'''
+
+#Imports
+from abc import ABC, abstractmethod
+from datetime import date
+from statistics import *
+
+
+class Person(ABC):
+
+    #Class dictionaries
+    roleDictionary           = {'001': 'Satff', '002': 'Faculty'}
+    classificationDictionary = {'001': 'Full-time', '002': 'Part-time'}
+    
+    #Init function
+    def __init__(self, lastName, firstName, idNumber, emailAdress, phoneNumber):
+        self._firstName = firstName
+        self._lastName = lastName
+        self._idNumber = idNumber
+        self._emailAdress = emailAdress
+        self._phoneNumber = phoneNumber
+    
+    #First name - can be changed
+    @property
+    def firstName(self):
+        return self._firstName
+    
+    @firstName.setter
+    def firstName(self, firstName):
+        if firstName is type(str):
+            self._firstName = firstName
+        else:
+            raise Exception("First Name must be leters")
+
+    #Last name - can be changed
+    @property
+    def lastname(self):
+        return self._lastName
+    
+    @lastname.setter
+    def lastName(self, lastName):
+        if lastName is type(str):
+            self._lastname = lastName
+        else:
+            raise Exception("Last Name must be letters")
+    
+    #ID number - cannot be changed
+    @property
+    def idNumber(self):
+        return self._idNumber
+
+    #Email adress - can be changed
+    @property
+    def emailAdress(self):
+        return self._emailAdress
+    
+    @emailAdress.setter
+    def emailAdress(self, emailAdress):
+        self._emailAdress = emailAdress
+
+
+    #Phone number - can be changed
+    @property
+    def phoneNumber(self):
+        return self._phoneNumber
+    
+    @phoneNumber.setter
+    def phoneNumber(self, phoneNumber):
+        if len(phoneNumber) == 12:
+            self._phoneNumber = phoneNumber
+        else:
+            raise Exception("Phone number must be 12 digets")
+
+    #Repr function
+    def __repr__(self):
+        print(f"{self.lastName:<10} {self.firstName:<10} {self.idNumber:<10} {self.emailAdress:<30} {self.phoneNumber:<20}")
+
+    #String function
+    def __str__(self):
+        print(f"{self.lastName:<10} {self.firstName:<10} {self.idNumber:<10} {self.emailAdress:<30} {self.phoneNumber:<20}")
+
+
+class Employee(Person):
+
+    def __init__(self, lastName, firstName, idNumber, emailAdress, phoneNumber, hireDate, classificationPerson, rolePerson, annualSalary):
+        super().__init__(lastName, firstName, idNumber, emailAdress, phoneNumber)
+        self._hireDate = hireDate
+        self._rolePerson = rolePerson
+        self._classificationPerson = classificationPerson
+        self._annualSalary = annualSalary
+
+    #Hire date - cannot be changed
+    @property
+    def hireDate(self):
+
+        #skip first line of file
+        if '/' in self._hireDate:
+
+            #Split the date into day, month, and year
+            day, month, year = self._hireDate.split('/')
+
+        else: 
+            return self._hireDate
+        
+        #Store hire date as a date from datetime module
+        self._hireDate = date(int(year), int(month), int(day))
+
+        return self._hireDate
+
+    #Rle person
+    @property
+    def rolePerson(self):
+        return self._rolePerson
+
+    #Store rolePerson as a key in the dictionary
+    @rolePerson.setter
+    def rolePerson(self, rolePerson):
+
+        #Store variable as 001 if Staff
+        if rolePerson == 'Staff':
+            self._rolePerson = '001'
+
+        #Store variable as 002 is Faculty
+        elif rolePerson == 'Faculty':
+            self._rolePerson = '002'
+
+    #Classification
+    @property
+    def classificationPerson(self):
+        return self._classificationPerson
+    
+    #Store classificationPerson as a key in the dictionary
+    @classificationPerson.setter
+    def classificationPerson(self, classifcationPerson):
+
+        #Store vaiable as 001 if Full time
+        if 'Full' in classifcationPerson:
+            self._classificationPerson = '001'
+
+        #Store variable as 002 if Part time
+        elif 'Part' in classifcationPerson:
+            self._classificationPerson = '002'
+
+
+    #Annual salary
+    @property 
+    def annualSalary(self):
+        return self._annualSalary
+    
+    @annualSalary.setter
+    def annualSalary(self, annualSalary):
+        self._annualSalary = annualSalary
+
+
+    def __str__(self):
+        print(f"{self.lastName:<10} {self.firstName:<10} {self.idNumber:<10} {self.emailAdress:<30} {self.phoneNumber:<20} {self._hireDate:<15} {self.classificationDictionary[self._classificationPerson]:<15} {self.roleDictionary[self._rolePerson]:<15} {self.annualSalary:<15}")
+    
+
+class Student(Person):
+
+    #Class Variable List 
+    courseNameList = ['Art', 'Latin', 'Greek', 'Mathematics', 'Science', 'Painting', 'Sculpting']
+
+
+    def __init__(self, lastName, firstName, idNumber, emailAdress, phoneNumber):
+        super().__init__(lastName, firstName, idNumber, emailAdress, phoneNumber)
+    
+        self.coursesStudentDict = {'Art': 0, 'Greek': 0, 'Latin': 0, 'Science': 0, 'Mathematics': 0}
+        
+
+def getEmployees():
+    '''This function will load every line from 'employee.txt' into a list as class objects'''
+
+    empList = []
+    i = 0
+
+    #open file
+    with open('employees.txt', 'r') as employee:
+
+        #load line by line into empList
+        for person in employee:
+
+            #Get all variables
+            lastName, firstName, idNum, email, phone, hireDate, classification, role, salary = person.split()
+
+            #Create a temporary object used to create the list
+            temp = Employee(lastName, firstName, idNum, email, phone, hireDate, classification, role, salary)
+
+            #Set classification as a dictionary key
+            temp.classificationPerson = classification
+
+            #Set role as a dictionary key
+            temp.rolePerson = role
+
+            #Create list
+            empList.append(temp)
+
+            #Show name added
+            #Skip first line
+            if len(empList) == 1:
+                pass
+
+            else:
+                print(f"{empList[i].firstName} {empList[i].lastName} added")
+
+            #next index
+            i += 1
+
+        print()
+    
+    #Return list
+    return empList
+
+
+def CreateStudent():
+    '''This function will create the student list from data from a file and load them as class objects'''
+
+    studentList = []
+    i = 0
+
+    #Open function
+    with open('students.txt' , 'r') as students:
+
+        for student in students:
+
+            #split data into individual variables
+            lastName, firstName, idNumber, emailAdress, phoneNumber = student.split()
+
+            #Create a tempary object to load into a list
+            temp = Student(lastName, firstName, idNumber, emailAdress, phoneNumber)
+
+            #Create a student list
+            studentList.append(temp)
+
+            #Print student added
+            #Skip printin first line
+            if len(studentList) == 1:
+                pass
+
+            else:
+                print(f"{studentList[i].firstName} {studentList[i].lastName} added")
+
+            i += 1
+
+        print()
+
+    return studentList
+
+
+def CreatePersonList(empList, studentList):
+    ''' This function will create a list with both employees and students'''
+
+    personList = []
+
+    #Load employee into list
+    for employee in empList:
+
+        personList.append(employee)
+
+    #Load students into list
+    for student in studentList:
+
+        #Skip the first line, does not contain useful information
+        if student == studentList[0]:
+            pass
+
+        else:
+            personList.append(student)
+
+
+    return personList
+
+
+def DisplayEmploymentInformation(empList):
+    '''This function will display the employment info'''
+
+    for i in empList:
+
+        #Print first line
+        #Doing this due to the dictionary being acessed in the else statement
+        if i == empList[0]:
+            print(f"{i.lastName:<10} {i.firstName:<10} {i.idNumber:<10} {i.emailAdress:<30} {i.phoneNumber:<20} {i._hireDate:<15} {i._classificationPerson:<15} {i._rolePerson:<15} {i.annualSalary:<15}")
+       
+       #Print the rest
+        else:
+            i.__str__()
+
+
+def DisplayContactInformation(empList):
+    '''This function will display the contact information'''
+
+    for i in empList:
+        i.__repr__()
+
+
+def getStudentScores(studentList):
+    '''This function will read student scores in from a txt file and search for the ID is the studentList and insert the scores into the object'''
+    
+
+    #index
+    i = 0
+
+    #Open the file
+    with open('scores.txt', 'r') as scores:
+
+        #Add the data from file line by line
+        for studentScores in scores:
+
+            #Seperate data into individual variables
+            id, Art, Greek, Latin, Science, Math = studentScores.split()
+            
+
+            if id == studentList[i].idNumber:
+
+                #Load data into student courses dictionary
+                studentList[i].coursesStudentDict['Art'] = Art  
+                studentList[i].coursesStudentDict['Greek'] = Greek
+                studentList[i].coursesStudentDict['Latin'] = Latin
+                studentList[i].coursesStudentDict['Science'] = Science
+                studentList[i].coursesStudentDict['Mathematics'] = Math
+
+                #Check to see of courses are in course list
+                if Art in studentList[i].courseNameList and Greek in studentList[i].courseNameList and Latin in studentList[i].courseNameList and Science in studentList[i].courseNameList and Math in studentList[i].courseNameList:
+                    print('\nAll current courses are in course list\n')
+                    pass
+
+                #print the scores added
+                else:
+                    print(f"Added scores for {studentList[i].firstName} {studentList[i].lastName}")
+
+            else:
+                break
+            #Index up 1
+            i += 1
+    print()
+    return
+
+
+def DisplayStudentScore(studentList):
+    '''This function will display the student's scores'''
+
+    index = 0
+
+    for i in studentList:
+        if index == 0:
+            print(f"{i.lastName:<15}{i.firstName:<15}{i.idNumber:<10}{i.coursesStudentDict['Art']:<10}{i.coursesStudentDict['Greek']:<10}{i.coursesStudentDict['Latin']:<10}{i.coursesStudentDict['Science']:<10}{i.coursesStudentDict['Mathematics']:<15}{'High':<10}{'Low':<10}{'Average':<10}{'Grade':<10}")
+            index += 1
+        else:
+            high, low, average = getStudentHighLowAve(i)
+
+            grade = getGrade(average)
+
+            print(f"{i.lastName:<15}{i.firstName:<15}{i.idNumber:<10}{i.coursesStudentDict['Art']:<10}{i.coursesStudentDict['Greek']:<10}{i.coursesStudentDict['Latin']:<10}{i.coursesStudentDict['Science']:<10}{i.coursesStudentDict['Mathematics']:<15}{high:<10}{low:<10}{average:<10}{grade:<10}")
+            
+    print()
+
+    artTuple = getSubjHighLowAve(studentList, 'Art')
+    greekTuple = getSubjHighLowAve(studentList, 'Greek')
+    LatinTuple = getSubjHighLowAve(studentList, 'Latin')
+    ScienceTuple = getSubjHighLowAve(studentList, 'Science')
+    MathTuple = getSubjHighLowAve(studentList, 'Mathematics')
+
+    print(f"{'High':<5}{artTuple[0]:>37}{greekTuple[0]:>10}{LatinTuple[0]:>10}{ScienceTuple[0]:>10}{MathTuple[0]:>10}")
+    print(f"{'Low':<5}{artTuple[1]:>37}{greekTuple[1]:>10}{LatinTuple[1]:>10}{ScienceTuple[1]:>10}{MathTuple[1]:>10}")
+    print(f"{'Average':<5}{artTuple[2]:>37}{greekTuple[2]:>8}{LatinTuple[2]:>11}{ScienceTuple[2]:>10}{MathTuple[2]:>10}")
+
+
+    print()
+
+def getSubjHighLowAve(studentList, key):
+
+    subjList= []
+    maxVal = 0
+    minVal = 0
+    aveVal = 0
+
+    for i in studentList:
+        if i.coursesStudentDict[key] in i.courseNameList:
+            pass
+        else:
+            subjList.append(int(i.coursesStudentDict[key]))
+
+    maxVal = max(subjList)    
+    minVal = min(subjList)
+    aveVal = mean(subjList)
+
+    return (maxVal, minVal, aveVal)
+
+
+
+def getStudentHighLowAve(student):
+
+    maxVal = 0
+    minVal = 0
+    aveVal = 0
+    studentScoreList = []
+
+    studentScoreList.append(int(student.coursesStudentDict['Art']))
+    studentScoreList.append(int(student.coursesStudentDict['Greek']))
+    studentScoreList.append(int(student.coursesStudentDict['Latin']))
+    studentScoreList.append(int(student.coursesStudentDict['Science']))
+    studentScoreList.append(int(student.coursesStudentDict['Mathematics']))
+
+    maxVal = max(studentScoreList)
+    minVal = min(studentScoreList)
+    aveVal = mean(studentScoreList)
+
+    return maxVal, minVal, aveVal
+    
+
+def getGrade(average):
+
+    if average <= 59:
+        return('F')
+    elif average > 59 and average <= 69:
+        return('D')
+    elif average > 69 and average <= 79:
+        return('C')
+    elif average > 79 and average <= 89:
+        return('B')
+    elif average > 89:
+        return('A')
+
+
+def lookUpStudentAcademicRecord(studenList, idNum):
+    
+    for i in studenList:
+        if i.idNumber == idNum:
+            return i
+        
+
+#Finish This
+def getHonorRoll(studentList):
+    honorRollList = []
+
+    for i in studentList:
+        if i.coursesStudentDict['Art'] in i.courseNameList:
+            pass
+        else:
+            Min, Max, Average = getStudentHighLowAve(i)
+
+def createMenu(empList, studentList, personList):
+    '''This function will create the menu for the user to select'''
+
+    keepGoing = 'y'
+    while keepGoing == 'y':
+
+        #Display menu
+        print('1. Quit')
+        print('2. Display Employee Employment Information')
+        print('3. Display Employee Contact Information')
+        print('4. Display Student Contact Information')
+        print('5. Display All Person Contact Information')
+        print('6. Display Full Academic Record')
+        print('7. Display Academic Report for one Student')
+        print('8 Display Honor Roll')
+
+        #Get input
+        userInput = int(input())
+        print()
+
+        #check if user entered correct value
+        if userInput not in (1,2,3,4,5,6,7,8):
+            print(f"\nI'm sorry {userInput} is not an option\n")
+
+        #Terminate if 1 entered
+        elif userInput == 1:
+            print('Thank you for using the system.\n')
+            print('Now exiting the program…\n')
+            keepGoing = 'n'
+
+        #Show employment info if 2 entered
+        elif userInput == 2:
+            
+            #Call displayEmploymentInformation
+            DisplayEmploymentInformation(empList)
+            print()
+
+        #Display employee conact info if 3 is entered
+        elif userInput == 3:
+
+            #Call DisplayContactInformation with empList
+            DisplayContactInformation(empList)
+            print()
+
+        #Display student contact info if 4 is entered
+        elif userInput == 4:
+
+            #Call DisplayContactInformation with studentList
+            DisplayContactInformation(studentList)
+            print()
+
+        #Display everyone's contact information if 5 is entered
+        elif userInput == 5:
+
+            #Call DisplayContactInformation with personList
+            DisplayContactInformation(personList)
+            print()
+        
+        #Display ... if 6 is entered
+        elif userInput == 6:
+            DisplayStudentScore(studentList)
+
+        
+        elif userInput == 7:
+            studenID = input("Enter studen ID number: ")
+            print()
+            student = lookUpStudentAcademicRecord(studentList, studenID)
+
+            maxVal, minVal, average = getStudentHighLowAve(student)
+            grade = getGrade(average)
+
+            print(f"{'LastName':<15}{'FirstName':<10}{'StudentID':<10}{'Art':<10}{'Greek':<10}{'Latin':<10}{'Science':<10}{'Math':<10}{'High':<10}{'Low':<10}{'Average':<10}{'Grade':<10}")
+            print(f"{student.lastName:<15}{student.firstName:<10}{student.idNumber:<10}{student.coursesStudentDict['Art']:<10}{student.coursesStudentDict['Greek']:<10}{student.coursesStudentDict['Latin']:<10}{student.coursesStudentDict['Science']:<10}{student.coursesStudentDict['Mathematics']:<10}{maxVal:<10}{minVal:<10}{average:<10}{grade:<10}")
+            print()
+
+        elif userInput == 8:
+            getHonorRoll()
+
+
+
+
+def main():
+
+    #Create employee list
+    employeeList = getEmployees()
+
+    #Create student list
+    studentList = CreateStudent()
+
+    #Add the scores to the Student objects
+    getStudentScores(studentList)
+
+    #Create a list with both employees and students
+    personList = CreatePersonList(employeeList, studentList)
+
+    #Create the menue with all 3 lists
+    createMenu(employeeList, studentList, personList)
+
+main()
