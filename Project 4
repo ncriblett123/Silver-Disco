@@ -376,7 +376,7 @@ def DisplayStudentScore(studentList):
     ScienceTuple = getSubjHighLowAve(studentList, 'Science')
     MathTuple = getSubjHighLowAve(studentList, 'Mathematics')
 
-    #Print, Max, Min, and Average
+    #Print, Max[0], Min[1], and Average[2]
     print(f"{'High':<5}{artTuple[0]:>37}{greekTuple[0]:>10}{LatinTuple[0]:>10}{ScienceTuple[0]:>10}{MathTuple[0]:>10}")
     print(f"{'Low':<5}{artTuple[1]:>37}{greekTuple[1]:>10}{LatinTuple[1]:>10}{ScienceTuple[1]:>10}{MathTuple[1]:>10}")
     print(f"{'Average':<5}{artTuple[2]:>37}{greekTuple[2]:>8}{LatinTuple[2]:>11}{ScienceTuple[2]:>10}{MathTuple[2]:>10}")
